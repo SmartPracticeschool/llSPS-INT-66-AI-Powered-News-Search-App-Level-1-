@@ -1,0 +1,765 @@
+[
+    {
+        "id": "3e402234.8786be",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "4789ce5.e95fb3",
+        "type": "watson-discovery-v1",
+        "z": "3e402234.8786be",
+        "name": "Query",
+        "environmentname": "",
+        "environmentId": "system",
+        "collectionId": "news-en",
+        "configurationname": "",
+        "configurationId": "",
+        "language_code": "en",
+        "collection_name": "",
+        "count": "10",
+        "passages": false,
+        "nlp_query": false,
+        "query": "text:Carabao",
+        "filter": "",
+        "aggregation": "term(text)",
+        "return": "text,website",
+        "description": "",
+        "size": "LT",
+        "discovery-method": "query",
+        "service-endpoint": "https://api.eu-gb.discovery.watson.cloud.ibm.com/instances/d01c6ac1-430d-4c50-8818-a30c1eb25c5c",
+        "x": 510,
+        "y": 500,
+        "wires": [
+            [
+                "f95f074.1f008f8",
+                "df26dca5.4d84",
+                "25b0b460.68977c",
+                "b1b2309e.f06da",
+                "3a8dde54.69ebd2",
+                "7b8b6cfb.70e514"
+            ]
+        ]
+    },
+    {
+        "id": "2a82bc47.5fae84",
+        "type": "ui_form",
+        "z": "3e402234.8786be",
+        "name": "",
+        "label": "",
+        "group": "1ae28480.1de17c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "",
+                "value": "input",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "input": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "",
+        "x": 110,
+        "y": 500,
+        "wires": [
+            [
+                "4bdcbf69.40602"
+            ]
+        ]
+    },
+    {
+        "id": "4bdcbf69.40602",
+        "type": "function",
+        "z": "3e402234.8786be",
+        "name": "input function",
+        "func": "msg={\n    discoveryparams:\n    {\n        \"environment_id\":\"system\",\n        \"query\":msg.payload.input\n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 310,
+        "y": 500,
+        "wires": [
+            [
+                "4789ce5.e95fb3"
+            ]
+        ]
+    },
+    {
+        "id": "f95f074.1f008f8",
+        "type": "function",
+        "z": "3e402234.8786be",
+        "name": "Output function",
+        "func": "\nmsg.payload=msg.search_results.results;\nreturn msg;\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 720,
+        "y": 440,
+        "wires": [
+            [
+                "2b8c3afd.2726d6"
+            ]
+        ]
+    },
+    {
+        "id": "2b8c3afd.2726d6",
+        "type": "ui_template",
+        "z": "3e402234.8786be",
+        "group": "e90702c6.f372",
+        "name": "",
+        "order": 1,
+        "width": 17,
+        "height": 23,
+        "format": "<head>\n    <style>\n  \n    .cont{\n       \n        background-color:#5e64ff;\n        outline-style:groove;\n        }\n    .link{\n        color:red;\n        background-color:#94ffbf;\n    }\n    .link:hover{\n        font-size:large;\n    }\ndiv.inner{\n    \n    margin:auto;\n    width:80%;\n    background-color:white;\n    border:1px solid black;\n}\np{\n    margin: 5%;\n  font-weight: bold;\n  color: #000000;\n}\n\n    </style>\n</head>\n\n\n<body>\n\n    <div class=\"cont\">\n    <h3 class=\"title\">>>{{msg.payload[0].title}}</h3>\n    <br/>\n    <a target=\"__blank\" class=\"link\" href=\"{{msg.payload[0].url}}\">{{msg.payload[0].url}}</a>\n    <br/>\n    <br/>\n    <div class=\"inner\"><p><b>{{msg.payload[0].text}}</b></p> <br/></div>\n    <br/>\n    </div>\n    <br>\n     <br>\n    \n    \n    <div class=\"cont\">\n    <h3 class=\"title\">>>{{msg.payload[1].title}}</h3>\n    <br/>\n    <a target=\"__blank\" class=\"link\" href=\"{{msg.payload[1].url}}\">{{msg.payload[1].url}}</a>\n    <br/>\n    <br/>\n    <div class=\"inner\"><p><b>{{msg.payload[1].text}}</b></p> <br/></div>\n    <br/>\n    </div>\n    <br>\n    <br>\n     <br>\n    <div class=\"cont\">\n    <h3 class=\"title\">>>{{msg.payload[2].title}}</h3>\n    <br/>\n    <a target=\"__blank\" class=\"link\" href=\"{{msg.payload[2].url}}\">{{msg.payload[2].url}}</a>\n    <br/>\n    <br>\n    <br/>\n    <div class=\"inner\"><p><b>{{msg.payload[2].text}}</b></p> <br/></div>\n    <br/>\n    </div>\n    <br>\n    <br>\n     <br>\n    <div class=\"cont\">\n    <h3 class=\"title\">>>{{msg.payload[3].title}}</h3>\n    <br/>\n    <a target=\"__blank\" class=\"link\" href=\"{{msg.payload[3].url}}\">{{msg.payload[3].url}}</a>\n    <br/>\n    <br/>\n    <div class=\"inner\"><p><b>{{msg.payload[3].text}}</b></p> <br/></div>\n    <br/>\n    </div>\n    <br>\n     <br>\n</body>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "x": 1000,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "df26dca5.4d84",
+        "type": "function",
+        "z": "3e402234.8786be",
+        "name": "article1",
+        "func": "msg.payload=msg.search_results.results[0].enriched_title.sentiment.document.score;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 720,
+        "y": 520,
+        "wires": [
+            [
+                "d593133a.3c6bd",
+                "a718c1b4.bcdfc",
+                "f58f2373.bea28"
+            ]
+        ]
+    },
+    {
+        "id": "d593133a.3c6bd",
+        "type": "ui_gauge",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 3,
+        "width": 7,
+        "height": 4,
+        "gtype": "gage",
+        "title": "sentiment_score_1",
+        "label": "units",
+        "format": "{{msg.payload}}",
+        "min": "-5",
+        "max": "5",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 910,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "25b0b460.68977c",
+        "type": "function",
+        "z": "3e402234.8786be",
+        "name": "article2",
+        "func": "msg.payload=msg.search_results.results[1].enriched_title.sentiment.document.score;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 720,
+        "y": 660,
+        "wires": [
+            [
+                "db53f469.abbe58",
+                "857456ff.a70978",
+                "5023317.4a3a1d"
+            ]
+        ]
+    },
+    {
+        "id": "db53f469.abbe58",
+        "type": "ui_gauge",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 7,
+        "width": 7,
+        "height": 4,
+        "gtype": "gage",
+        "title": "sentiment_score_2",
+        "label": "units",
+        "format": "{{msg.payload}}",
+        "min": "-5",
+        "max": "5",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 910,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "b1b2309e.f06da",
+        "type": "function",
+        "z": "3e402234.8786be",
+        "name": "article3",
+        "func": "msg.payload=msg.search_results.results[2].enriched_title.sentiment.document.score;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 720,
+        "y": 800,
+        "wires": [
+            [
+                "a2eddb90.756698",
+                "f7e8bcfb.483c",
+                "59884eee.dc2c4"
+            ]
+        ]
+    },
+    {
+        "id": "a2eddb90.756698",
+        "type": "ui_gauge",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 12,
+        "width": 7,
+        "height": 4,
+        "gtype": "gage",
+        "title": "sentiment_score_3",
+        "label": "units",
+        "format": "{{msg.payload}}",
+        "min": "-5",
+        "max": "5",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 910,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "3a8dde54.69ebd2",
+        "type": "function",
+        "z": "3e402234.8786be",
+        "name": "article4",
+        "func": "msg.payload=msg.search_results.results[3].enriched_title.sentiment.document.score;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 720,
+        "y": 940,
+        "wires": [
+            [
+                "544ddb99.06d6e4",
+                "a5076817.2a92d8",
+                "43b7477f.2c8888"
+            ]
+        ]
+    },
+    {
+        "id": "544ddb99.06d6e4",
+        "type": "ui_gauge",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 18,
+        "width": 7,
+        "height": 4,
+        "gtype": "gage",
+        "title": "sentiment_score_4",
+        "label": "units",
+        "format": "{{msg.payload}}",
+        "min": "-5",
+        "max": "5",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 910,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "7b8b6cfb.70e514",
+        "type": "sentiment",
+        "z": "3e402234.8786be",
+        "name": "",
+        "property": "payload",
+        "x": 720,
+        "y": 1060,
+        "wires": [
+            [
+                "2a549fbb.5dd6",
+                "3f9b5f54.8c62c",
+                "a573af27.2c1a"
+            ]
+        ]
+    },
+    {
+        "id": "2a549fbb.5dd6",
+        "type": "function",
+        "z": "3e402234.8786be",
+        "name": "",
+        "func": "msg.payload=msg.sentiment.score;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 870,
+        "y": 1040,
+        "wires": [
+            [
+                "ceb7c045.e50e9"
+            ]
+        ]
+    },
+    {
+        "id": "3f9b5f54.8c62c",
+        "type": "function",
+        "z": "3e402234.8786be",
+        "name": "",
+        "func": "msg.payload=msg.sentiment.score;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 870,
+        "y": 1080,
+        "wires": [
+            [
+                "1a6024f6.f482bb"
+            ]
+        ]
+    },
+    {
+        "id": "a573af27.2c1a",
+        "type": "debug",
+        "z": "3e402234.8786be",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1170,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "a718c1b4.bcdfc",
+        "type": "ui_chart",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 4,
+        "width": 6,
+        "height": 2,
+        "label": "positive",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 880,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ceb7c045.e50e9",
+        "type": "link out",
+        "z": "3e402234.8786be",
+        "name": "",
+        "links": [],
+        "x": 955,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "1a6024f6.f482bb",
+        "type": "link out",
+        "z": "3e402234.8786be",
+        "name": "",
+        "links": [],
+        "x": 955,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "f58f2373.bea28",
+        "type": "ui_chart",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 5,
+        "width": 6,
+        "height": 2,
+        "label": "negative",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "-1",
+        "ymax": "0",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 880,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "857456ff.a70978",
+        "type": "ui_chart",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 8,
+        "width": 6,
+        "height": 2,
+        "label": "positive",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 880,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5023317.4a3a1d",
+        "type": "ui_chart",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 9,
+        "width": 6,
+        "height": 2,
+        "label": "negative",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "-1",
+        "ymax": "0",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 880,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f7e8bcfb.483c",
+        "type": "ui_chart",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 13,
+        "width": 6,
+        "height": 2,
+        "label": "positive",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 880,
+        "y": 800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "59884eee.dc2c4",
+        "type": "ui_chart",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 14,
+        "width": 6,
+        "height": 2,
+        "label": "negative",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "-1",
+        "ymax": "0",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 880,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a5076817.2a92d8",
+        "type": "ui_chart",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 19,
+        "width": 6,
+        "height": 2,
+        "label": "positive",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 880,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "43b7477f.2c8888",
+        "type": "ui_chart",
+        "z": "3e402234.8786be",
+        "name": "",
+        "group": "e90702c6.f372",
+        "order": 20,
+        "width": 6,
+        "height": 2,
+        "label": "negative",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "-1",
+        "ymax": "0",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 880,
+        "y": 980,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1ae28480.1de17c",
+        "type": "ui_group",
+        "z": "",
+        "name": "Ai NEWS",
+        "tab": "ed7ac26f.e7711",
+        "order": 1,
+        "disp": true,
+        "width": 30,
+        "collapse": false
+    },
+    {
+        "id": "e90702c6.f372",
+        "type": "ui_group",
+        "z": "",
+        "name": "Search Results",
+        "tab": "ed7ac26f.e7711",
+        "order": 2,
+        "disp": true,
+        "width": 30,
+        "collapse": false
+    },
+    {
+        "id": "ed7ac26f.e7711",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
